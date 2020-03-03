@@ -1,6 +1,8 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
+const path = require('path')
+
 module.exports = function (ctx) {
   return {
     // Quasar looks for *.js files by default
@@ -81,6 +83,11 @@ module.exports = function (ctx) {
             formatter: require('eslint').CLIEngine.getFormatter('stylish')
           }
         })
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias, // This adds the existing alias
+
+          '@': path.resolve(__dirname, './src')
+        }
       }
     },
 

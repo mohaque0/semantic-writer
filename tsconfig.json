@@ -10,7 +10,12 @@
     "baseUrl": ".",
     "types": [
       "quasar"
-    ]
+    ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    }
   },
   "exclude": ["node_modules"]
 }

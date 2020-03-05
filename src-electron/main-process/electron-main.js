@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeTheme } from 'electron'
+import { app, BrowserWindow, nativeTheme, Menu } from 'electron'
 
 try {
   if (process.platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
@@ -34,6 +34,7 @@ function createWindow () {
     }
   })
 
+  Menu.setApplicationMenu(null);
   mainWindow.loadURL(process.env.APP_URL)
 
   mainWindow.on('closed', () => {

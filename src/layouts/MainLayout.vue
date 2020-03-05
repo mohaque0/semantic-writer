@@ -1,40 +1,17 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
+  <q-layout view="lHh lpr lFf">
     <q-drawer
       v-model="leftDrawerOpen"
+      :mini="leftDrawerMini"
+      behavior="desktop"
       show-if-above
       bordered
       content-class="bg-grey-1"
     >
       <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
+        <SidebarAction
+          v-for="link in sidebar"
+          :key="link.icon"
           v-bind="link"
         />
       </q-list>
@@ -47,59 +24,68 @@
 </template>
 
 <script lang="ts">
-import EssentialLink from '@/components/EssentialLink.vue'
-
+import { Component } from 'vue-property-decorator'
 import Vue from 'vue'
+import SidebarAction from '@/components/SidebarAction.vue'
 
-export default Vue.extend({
-  name: 'MainLayout',
-
+@Component({
   components: {
-    EssentialLink
+    SidebarAction
   },
+})
+export default class MainLayout extends Vue {
 
   data () {
     return {
-      leftDrawerOpen: false,
-      essentialLinks: [
+      leftDrawerOpen: true,
+      leftDrawerMini: true,
+      sidebar: [
         {
-          title: 'Docs',
-          caption: 'quasar.dev',
-          icon: 'school',
-          link: 'https://quasar.dev'
+          icon: 'settings',
+          target: 'settings'
         },
         {
-          title: 'Github',
-          caption: 'github.com/quasarframework',
-          icon: 'code',
-          link: 'https://github.com/quasarframework'
+          icon: 'mdi-format-header-1',
+          target: 'h1'
         },
         {
-          title: 'Discord Chat Channel',
-          caption: 'chat.quasar.dev',
-          icon: 'chat',
-          link: 'https://chat.quasar.dev'
+          icon: 'mdi-format-header-2',
+          target: 'h2'
         },
         {
-          title: 'Forum',
-          caption: 'forum.quasar.dev',
-          icon: 'record_voice_over',
-          link: 'https://forum.quasar.dev'
+          icon: 'mdi-format-header-3',
+          target: 'h3'
         },
         {
-          title: 'Twitter',
-          caption: '@quasarframework',
-          icon: 'rss_feed',
-          link: 'https://twitter.quasar.dev'
+          icon: 'mdi-format-header-4',
+          target: 'h4'
         },
         {
-          title: 'Facebook',
-          caption: '@QuasarFramework',
-          icon: 'public',
-          link: 'https://facebook.quasar.dev'
-        }
+          icon: 'mdi-format-header-5',
+          target: 'h5'
+        },
+        {
+          icon: 'mdi-format-header-6',
+          target: 'h6'
+        },
+        {
+          icon: 'format_list_bulleted',
+          target: 'list_bulleted'
+        },
+        {
+          icon: 'format_list_numbered',
+          target: 'list_numbered'
+        },
+        {
+          icon: 'format_quote',
+          target: 'blockquote'
+        },
+        {
+          icon: 'mdi-format-pilcrow',
+          target: 'text'
+        },
       ]
     }
   }
-})
+}
 </script>

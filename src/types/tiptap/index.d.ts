@@ -5,6 +5,7 @@ declare module 'tiptap' {
 
   import { Schema, NodeType, NodeSpec, MarkSpec, Node as ProsemirrorNode, MarkType, ParseOptions } from 'prosemirror-model';
   import { EditorState, Plugin, Transaction } from 'prosemirror-state';
+  import { InputRule } from 'prosemirror-inputrules';
   import { Command, CommandFunction } from 'tiptap-commands';
   import { EditorView, EditorProps } from 'prosemirror-view';
   import { VueConstructor } from 'vue';
@@ -162,7 +163,7 @@ declare module 'tiptap' {
     keys?({ schema }: { schema: Schema | NodeSpec | MarkSpec }): { [keyCombo: string]: CommandFunction };
     /** Define commands. */
     commands?({ schema, attrs }: { schema: Schema | NodeSpec | MarkSpec, attrs: { [key: string]: string } }): CommandGetter;
-    inputRules?({ schema }: { schema: Schema }): any[];
+    inputRules?({ schema }: { schema: Schema }): InputRule[];
     pasteRules?({ schema }: { schema: Schema }): Plugin[];
     /** Called when options of extension are changed via editor.extensions.options */
     update?: (view: EditorView) => any;
@@ -178,7 +179,7 @@ declare module 'tiptap' {
     view?: { new(): V };
     commands?({ type, schema, attrs }: { type: NodeType, schema: NodeSpec, attrs: { [key: string]: string } }): CommandGetter;
     keys?({ type, schema }: { type: NodeType, schema: NodeSpec }): { [keyCombo: string]: CommandFunction };
-    inputRules?({ type, schema }: { type: NodeType, schema: Schema }): any[];
+    inputRules?({ type, schema }: { type: NodeType, schema: Schema }): InputRule[];
     pasteRules?({ type, schema }: { type: NodeType, schema: Schema }): Plugin[];
   }
 
@@ -190,7 +191,7 @@ declare module 'tiptap' {
     view?: { new(): V }
     commands?({ type, schema, attrs }: { type: MarkType, schema: MarkSpec, attrs: { [key: string]: string } }): CommandGetter;
     keys?({ type, schema }: { type: MarkType, schema: MarkSpec }): { [keyCombo: string]: CommandFunction };
-    inputRules?({ type, schema }: { type: MarkType, schema: Schema }): any[];
+    inputRules?({ type, schema }: { type: MarkType, schema: Schema }): InputRule[];
     pasteRules?({ type, schema }: { type: MarkType, schema: Schema }): Plugin[];
   }
 

@@ -32,4 +32,8 @@ declare module 'tiptap-commands' {
 
   export function pasteRule(regexp: RegExp, type: string, getAttrs: (() => { [key: string]: any }) | { [key: string]: any }): Plugin;
 
+  export function markInputRule(regext: RegExp, type: MarkType, getAttrs?: (() => { [key: string]: any }) | { [key: string]: any }): InputRule;
+
+  export function markPasteRule(regext: RegExp, type: MarkType, getAttrs?: (() => { [key: string]: any }) | { [key: string]: any }): Plugin;
+
 }

@@ -140,19 +140,30 @@
             hr
           </q-item>
 
-          <q-item clickable v-ripple
-            class="menubar__button"
-            @click="commands.undo"
-          >
-            undo
+          <q-item clickable class="full-width">
+            <div class="q-pb-xs">
+              <div class="row">
+                <div class="col"><q-input v-model="add_style_name" hint="Name" dense /></div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <q-input v-model="add_style_element" hint="Element" dense />
+                </div>
+                <div class="col">
+                  <q-input v-model="add_style_class" hint="Class" dense />
+                </div>
+              </div>
+              <div class="row q-mt-sm">
+                <div class="col q-pa-xs">
+                  <q-btn class="full-width" icon="add" dense />
+                </div>
+                <div class="col q-pa-xs">
+                  <q-btn class="full-width" icon="close" dense />
+                </div>
+              </div>
+            </div>
           </q-item>
 
-          <q-item clickable v-ripple
-            class="menubar__button"
-            @click="commands.redo"
-          >
-            redo
-          </q-item>
         </q-list>
         </div>
       </editor-menu-bar>
@@ -176,7 +187,7 @@
           <div class="content-editor">
             
             <SemanticStyles>
-              {{ styles }}
+              {{ styleCSS }}
             </SemanticStyles>
 
             <editor-content class="editor__content" :editor="editor" />
@@ -185,7 +196,7 @@
         </template>
 
         <template v-slot:after>
-          <prism-editor class="style-editor" v-model="styles" :highlight="highlighter" line-numbers></prism-editor>
+          <prism-editor class="style-editor" v-model="styleCSS" :highlight="highlighter" line-numbers></prism-editor>
         </template>
 
       </q-splitter>
@@ -283,7 +294,7 @@ export default {
           </blockquote>
         `,
       }),
-      styles: `
+      styleCSS: `
         div.myc {
           font-family: serif;
           color: red;
@@ -338,6 +349,10 @@ a {
   font-size: 14px;
   line-height: 1.5;
   padding: 5px;
+}
+
+.add-style-form:hover {
+  background: #FAFAFA;
 }
 
 </style>

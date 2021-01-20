@@ -23,11 +23,90 @@
 
           <q-item clickable v-ripple
             class="menubar__button"
+            :class="{ 'is-active': isActive.heading({ level: 1 }) }"
+            @click="commands.heading({ level: 1 })"
+          >
+            Header 1
+          </q-item>
+
+          <q-item clickable v-ripple
+            class="menubar__button"
+            :class="{ 'is-active': isActive.heading({ level: 2 }) }"
+            @click="commands.heading({ level: 2 })"
+          >
+            Header 2
+          </q-item>
+
+          <q-item clickable v-ripple
+            class="menubar__button"
+            :class="{ 'is-active': isActive.heading({ level: 3 }) }"
+            @click="commands.heading({ level: 3 })"
+          >
+            Header 3
+          </q-item>
+
+          <q-item clickable v-ripple
+            class="menubar__button"
+            :class="{ 'is-active': isActive.blockquote() }"
+            @click="commands.blockquote"
+          >
+            Blockquote
+          </q-item>
+
+          <q-item clickable v-ripple
+            class="menubar__button"
+            :class="{ 'is-active': isActive.code_block() }"
+            @click="commands.code_block"
+          >
+            Code Block
+          </q-item>
+
+          <q-item clickable v-ripple
+            class="menubar__button"
+            :class="{ 'is-active': isActive.paragraph() }"
+            @click="commands.paragraph"
+          >
+            Paragraph
+          </q-item>
+
+          <q-item clickable v-ripple
+            class="menubar__button"
             :class="{ 'is-active': isActive.dynamicBlock({tag: 'div', class: 'myc'}) }"
             @click="() => {debug(commands); commands.dynamicBlock({tag: 'div', class: 'myc'}) }"
           >
             Dynamic
           </q-item>
+
+          <q-item>
+            <AddDynamicStyleButton @createNewStyle="debug" />
+          </q-item>
+
+          <q-separator class="q-mt-sm q-mb-sm" />
+
+          <q-item clickable v-ripple
+            class="menubar__button"
+            :class="{ 'is-active': isActive.bullet_list() }"
+            @click="commands.bullet_list"
+          >
+            Bulleted List
+          </q-item>
+
+          <q-item clickable v-ripple
+            class="menubar__button"
+            :class="{ 'is-active': isActive.ordered_list() }"
+            @click="commands.ordered_list"
+          >
+            Ordered List
+          </q-item>
+
+          <q-item clickable v-ripple
+            class="menubar__button"
+            @click="commands.horizontal_rule"
+          >
+            Horizontal Rule
+          </q-item>
+
+          <q-separator class="q-mt-sm q-mb-sm" />
 
           <q-item clickable v-ripple
             class="menubar__button"
@@ -67,101 +146,6 @@
             @click="commands.code"
           >
             Code
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.paragraph() }"
-            @click="commands.paragraph"
-          >
-            Paragraph
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.heading({ level: 1 }) }"
-            @click="commands.heading({ level: 1 })"
-          >
-            H1
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.heading({ level: 2 }) }"
-            @click="commands.heading({ level: 2 })"
-          >
-            H2
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.heading({ level: 3 }) }"
-            @click="commands.heading({ level: 3 })"
-          >
-            H3
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.bullet_list() }"
-            @click="commands.bullet_list"
-          >
-            ul
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.ordered_list() }"
-            @click="commands.ordered_list"
-          >
-            ol
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.blockquote() }"
-            @click="commands.blockquote"
-          >
-            quote
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.code_block() }"
-            @click="commands.code_block"
-          >
-            coe
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            @click="commands.horizontal_rule"
-          >
-            hr
-          </q-item>
-
-          <q-item clickable class="full-width">
-            <div class="q-pb-xs">
-              <div class="row">
-                <div class="col"><q-input v-model="add_style_name" hint="Name" dense /></div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <q-input v-model="add_style_element" hint="Element" dense />
-                </div>
-                <div class="col">
-                  <q-input v-model="add_style_class" hint="Class" dense />
-                </div>
-              </div>
-              <div class="row q-mt-sm">
-                <div class="col q-pa-xs">
-                  <q-btn class="full-width" icon="add" dense />
-                </div>
-                <div class="col q-pa-xs">
-                  <q-btn class="full-width" icon="close" dense />
-                </div>
-              </div>
-            </div>
           </q-item>
 
         </q-list>
@@ -230,6 +214,7 @@ import {
   History,
 } from 'tiptap-extensions'
 import DynamicNode from '../tiptap-dynamic/DynamicNode'
+import AddDynamicStyleButton from "./AddDynamicStyleButton.vue"
 
 // For style editor
 import { PrismEditor } from 'vue-prism-editor';
@@ -244,7 +229,8 @@ export default {
   components: {
     EditorContent,
     EditorMenuBar,
-    PrismEditor
+    PrismEditor,
+    AddDynamicStyleButton
   },
   data() {
     return {
@@ -317,21 +303,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-
 .content-editor {
   margin-left: 1in;
   margin-right: 1in;
@@ -349,10 +320,6 @@ a {
   font-size: 14px;
   line-height: 1.5;
   padding: 5px;
-}
-
-.add-style-form:hover {
-  background: #FAFAFA;
 }
 
 </style>

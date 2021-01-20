@@ -16,14 +16,17 @@ export default class DynamicBlock extends Node {
       draggable: false,
       parseDOM: [
         {
-          tag: 'div',
+          tag: 'div[class]',
           getAttrs: dom => ({
-            tag: 'div',
+            tag: dom.tagName,
             class: dom.getAttribute("class")
           })
         },
       ],
-      toDOM: (node) => {console.log(node); return [node.attrs.tag, { class: node.attrs.class } , 0] },
+      toDOM: (node) => {
+        console.log(node);
+        return [node.attrs.tag, { class: node.attrs.class }, 0]
+      },
     }
   }
 

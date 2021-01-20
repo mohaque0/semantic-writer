@@ -69,16 +69,19 @@
             Paragraph
           </q-item>
 
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.dynamicBlock({tag: 'div', class: 'myc'}) }"
-            @click="() => {debug(commands); commands.dynamicBlock({tag: 'div', class: 'myc'}) }"
+          <q-item
+            v-for="(style,index) in styleDefinitions"
+            :key="'style-definition-'+index"
+            clickable
+            v-ripple
+            :class="{ 'is-active': isActive.dynamicBlock({tag: style.element, class: style.cl}) }"
+            @click="() => {debug(commands); commands.dynamicBlock({tag: style.element, class: style.cl}) }"
           >
-            Dynamic
+            {{ style.name }}
           </q-item>
 
           <q-item>
-            <AddDynamicStyleButton @createNewStyle="debug" />
+            <AddDynamicStyleButton @createNewStyle="createNewStyle" />
           </q-item>
 
           <q-separator class="q-mt-sm q-mb-sm" />
@@ -286,6 +289,18 @@ export default {
           color: red;
         }
       `,
+      styleDefinitions: [
+        {
+          name: "Dynamic",
+          element: "div",
+          cl: "myc"
+        }
+      ],
+      createNewStyle: (style) => {
+        console.log("Adding style:")
+        console.log(style)
+        this.styleDefinitions.push(style);
+      },
       debug: (msg) => {
         console.log(msg);
       },

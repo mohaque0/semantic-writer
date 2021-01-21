@@ -21,54 +21,6 @@
 
         <q-list dense padding>
 
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.heading({ level: 1 }) }"
-            @click="commands.heading({ level: 1 })"
-          >
-            Header 1
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.heading({ level: 2 }) }"
-            @click="commands.heading({ level: 2 })"
-          >
-            Header 2
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.heading({ level: 3 }) }"
-            @click="commands.heading({ level: 3 })"
-          >
-            Header 3
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.blockquote() }"
-            @click="commands.blockquote"
-          >
-            Blockquote
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.code_block() }"
-            @click="commands.code_block"
-          >
-            Code Block
-          </q-item>
-
-          <q-item clickable v-ripple
-            class="menubar__button"
-            :class="{ 'is-active': isActive.paragraph() }"
-            @click="commands.paragraph"
-          >
-            Paragraph
-          </q-item>
-
           <q-item
             v-for="(style,index) in styleDefinitions"
             :key="'style-definition-'+index"
@@ -198,16 +150,10 @@
 // For text editor
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
-  Blockquote,
-  CodeBlock,
-  HardBreak,
-  Heading,
   HorizontalRule,
   OrderedList,
   BulletList,
   ListItem,
-  TodoItem,
-  TodoList,
   Bold,
   Code,
   Italic,
@@ -242,16 +188,10 @@ export default {
       editor: new Editor({
         extensions: [
           new DynamicNode(),
-          new Blockquote(),
           new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
           new HorizontalRule(),
           new ListItem(),
           new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
           new Link(),
           new Bold(),
           new Code(),
@@ -283,17 +223,34 @@ export default {
           </blockquote>
         `,
       }),
-      styleCSS: `
-        div.myc {
-          font-family: serif;
-          color: red;
-        }
+      styleCSS: `/* Add styles here */
+
+blockquote {
+  margin-left: 0px;
+  border-left: solid 1ex #DDD;
+  padding-left: 2em;
+}
       `,
       styleDefinitions: [
         {
-          name: "Dynamic",
-          element: "div",
-          cl: "myc"
+          name: "Heading 1",
+          element: "h1",
+          cl: ""
+        },
+        {
+          name: "Heading 2",
+          element: "h2",
+          cl: ""
+        },
+        {
+          name: "Heading 3",
+          element: "h3",
+          cl: ""
+        },
+        {
+          name: "Quote Block",
+          element: "blockquote",
+          cl: ""
         }
       ],
       createNewStyle: (style) => {
@@ -335,6 +292,10 @@ export default {
   font-size: 14px;
   line-height: 1.5;
   padding: 5px;
+}
+
+.is-active {
+  font-weight: bold;
 }
 
 </style>

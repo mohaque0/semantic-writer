@@ -1,5 +1,5 @@
 import { Node } from 'tiptap'
-import { wrappingInputRule, toggleWrap } from 'tiptap-commands'
+import { toggleBlockType } from 'tiptap-commands'
 
 export default class DynamicBlock extends Node {
 
@@ -8,21 +8,25 @@ export default class DynamicBlock extends Node {
   }
 
   get schema() {
+    const allowedTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre']
+    const getAttrsFunction = 
+      dom => ({
+        tag: dom.tagName,
+        class: dom.getAttribute("class") ?? ""
+      });
+
     return {
       attrs: { tag: { default: 'div' }, class: { default: "" }},
-      content: 'block*',
+      content: 'inline*',
       group: 'block',
       defining: true,
       draggable: false,
-      parseDOM: [
-        {
-          tag: 'div[class]',
-          getAttrs: dom => ({
-            tag: dom.tagName,
-            class: dom.getAttribute("class")
-          })
-        },
-      ],
+      parseDOM: allowedTags.map(tag => 
+        ({
+          tag: tag,
+          getAttrs: getAttrsFunction
+        })
+      ),
       toDOM: (node) => {
         console.log(node);
         return [node.attrs.tag, { class: node.attrs.class }, 0]
@@ -30,18 +34,17 @@ export default class DynamicBlock extends Node {
     }
   }
 
-  commands({ type }) {
-    return attrs => toggleWrap(type, attrs)
+  commands({ type, schema }) {
+    console.log({type, schema})
+    return attrs => toggleBlockType(type, schema.nodes.paragraph, attrs)
   }
 
   keys() {
     return {}
   }
 
-  inputRules({ type }) {
-    return [
-      wrappingInputRule(/^\s*<\s$/, type),
-    ]
+  inputRules() {
+    return []
   }
 
 }
